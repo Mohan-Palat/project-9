@@ -1,5 +1,5 @@
 <h1><%= drivein.name %>'s Detail Page</h1>
-<h4>Create a New Movie</h4>
+<h4>Add Movie</h4>
 <form action="/driveins/<%= drivein.id %>/movies" method="POST">
   <div class="form-group">
     <label for="name">Movie Title</label>
@@ -12,13 +12,15 @@
     <% for (let i=0; i<drivein.movies.length; i++) { %>
   <li>
     <a href="/movies/<%= drivein.movies[i].id %>"
-      ><%= drivein.movies[i].name %></a
+      ><%= drivein.movies[i].title %></a
     >
     <br>
 
     <div>Showtimes:
-    <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
+    <% if (drivein.showtimes[i] != null) {%>
+      <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
         <%= drivein.showtimes[i].movieshowtimes[j] %>
+      <% } %>
     <% } %>
     </div>
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const movieSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     default: '',
     unique: true,

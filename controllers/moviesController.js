@@ -13,24 +13,66 @@ router.get('/', async (req, res) => {
     });
 });
 
+router.get('/new', (req, res) => {
+  res.render('movies/new.ejs');
+});
+
 router.get('/:movieId', (req, res) => {
   Movie.findById(req.params.movieId, (error, movie) => {
     res.render('movies/show.ejs', { movie });
   });
 });
 
-router.get('/new', (req, res) => {
-    res.render('movies/new.ejs');
-});
-
 // CREATE A NEW MOVIE
 router.post('/', async (req, res) => {
     try {
       let newMovie = await Movie.create(req.body);
-      res.send(newMovie);
+      res.redirect(`/movies/${newMovie.id}`);
+      // res.send(newMovie);
     } catch (error) {
       res.send(error);
     }
+});
+
+// DELETE
+router.delete('/:id', async (req, res) => {
+  Movie.findByIdAndRemove(req.params.id, async (err, deletedMovie) => {
+    let allDriveins = await Drivein.find({});
+    console.log(deletedMovie);
+    console.log(deletedMovie._id);
+    allDriveins.forEach(async(driveinKey, moviesIndex) => {
+
+      let drivein = new Drivein();
+      drivein.name = driveinKey.name + " update";
+
+      driveinKey.movies.forEach((movieKey, movieIndex) => {
+        console.log(`movieKey is ${movieKey}`);
+        if (String(movieKey) == String(deletedMovie._id)) {
+          console.log(movieKey);
+          console.log(movieIndex);
+        }
+        else {
+          drivein.movies.push(movieKey);
+          drivein.showtimes.push(driveinKey.showtimes[movieIndex]);
+        }
+      });
+
+      console.log(drivein.movies);
+      console.log(driveinKey._id);
+      await Drivein.findByIdAndUpdate(
+        driveinKey._id,
+        {movies: drivein.movies},
+        { new: true, upsert: false }
+      );
+      await Drivein.findByIdAndUpdate(
+        driveinKey._id,
+        {showtimes: drivein.showtimes},
+        { new: true, upsert: false }
+      );
+    });
+
+    res.redirect('/movies');
   });
+});
 
 module.exports = router;

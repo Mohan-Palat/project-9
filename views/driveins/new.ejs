@@ -1,0 +1,44 @@
+<h1>Add New Drive-In</h1>
+<form action="/driveins" method="POST">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" name="name" />
+  </div>
+
+  <% movies.forEach((movie, index) => { %>
+  <input
+    type="checkbox"
+    id="<%= movie.title %>"
+    name="movies"
+    value="<%= movie.id %>"
+  />
+  <label for="<%= movie.title %>"><%= movie.title %></label><br/>
+
+  <input
+  type="checkbox"
+  id="time7"
+  name="<%= movie.id %>"
+  value="7:00"
+  />
+  <label for="time7">7:00</label><br/>
+
+  <input
+    type="checkbox"
+    id="time8"
+    name="<%= movie.id %>"
+    value="8:00"
+  />
+  <label for="time8">8:00</label><br/>
+
+  <input
+    type="checkbox"
+    id="time9"
+    name="<%= movie.id %>"
+    value="9:00"
+  />
+  <label for="time9">9:00</label><br/>
+
+  <% })%>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

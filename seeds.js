@@ -18,21 +18,21 @@ mongoose.connect(
 );
 
 async function seed() {
-//   await mongoose.connection.dropCollection('movies');
-//   await mongoose.connection.dropCollection('driveins');
+  await mongoose.connection.dropCollection('movies');
+  await mongoose.connection.dropCollection('driveins');
 
   // CREATE TWO MOVIES
   const irishman = await Movie.create({
-    name: 'The Irishman',
+    title: 'The Irishman',
     description: 'A movie about a guy who is Irish',
   });
 
   const parasite = await Movie.create({
-    name: 'Parasite',
+    title: 'Parasite',
     description: 'A movie that takes place in South Korea',
   });
 
-  // CREATE A NEW THEATERS
+  // CREATE A NEW DRIVEINS
   const moonlightDrivein = new Drivein({
     name: 'Moonlight Drive-In',
     movies: [],
