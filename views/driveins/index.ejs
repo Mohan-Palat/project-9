@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive-Ins</title>
+</head>
+<body>
+    <h1>Drive-Ins</h1>
+    <a href="/driveins/new" >Create New Drive-In</a>
+    <br>
+    <ul>
+        <% for (let i=0; i<driveins.length; i++) { %>
+            <li>
+                <a href="/driveins/<%=driveins[i]._id%>">
+                    <%= driveins[i].name %>
+                </a>
+            </li>
+            <form action="/driveins/<%=driveins[i]._id%>?_method=DELETE" method="POST">
+                <button>DELETE</button>
+            </form>
+            <br>
+        <% } %>
+    </ul>
+</body>
+</html>

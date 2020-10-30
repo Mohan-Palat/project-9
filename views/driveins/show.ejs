@@ -1,0 +1,33 @@
+<h1><%= drivein.name %>'s Detail Page</h1>
+<h4>Create a New Movie</h4>
+<form action="/driveins/<%= drivein.id %>/movies" method="POST">
+  <div class="form-group">
+    <label for="name">Movie Title</label>
+    <input type="text" class="form-control" id="name" name="name" />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<h1>Movies</h1>
+<ul>
+    <% for (let i=0; i<drivein.movies.length; i++) { %>
+  <li>
+    <a href="/movies/<%= drivein.movies[i].id %>"
+      ><%= drivein.movies[i].name %></a
+    >
+    <br>
+
+    <div>Showtimes:
+    <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
+        <%= drivein.showtimes[i].movieshowtimes[j] %>
+    <% } %>
+    </div>
+
+    <form
+      action="/driveins/<%= drivein.id %>/movies/<%= drivein.movies[i].id %>?_method=DELETE"
+      method="POST"
+    >
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+  </li>
+  <% } %>
+</ul>
