@@ -17,8 +17,11 @@ router.get('/:id', async (req, res) => {
   let allMovies = await Movie.find({});
   let foundDrivein = await Drivein.findById(req.params.id).populate({
     path: 'movies',
-    options: { sort: { ['name']: 1 } },
-  });
+   });
+  // let foundDrivein = await Drivein.findById(req.params.id).populate({
+  //   path: 'movies',
+  //   options: { sort: { ['name']: 1 } },
+  // });
   res.render('driveins/show.ejs', {
     drivein: foundDrivein,
     movies: allMovies,
@@ -29,6 +32,12 @@ router.post('/', async (req, res) => {
   console.log(req.body);
   let drivein = new Drivein();
   drivein.name = req.body.name;
+
+  if (!Array.isArray(req.body.movies)) {
+    let temp = req.body.movies;
+    req.body.movies = [];
+    req.body.movies.push(temp);
+  }
 
   req.body.movies.forEach ((movie, index) => {
     Object.keys(req.body).forEach (key => {
@@ -54,28 +63,66 @@ router.post('/', async (req, res) => {
   res.redirect(`/driveins/${drivein.id}`);
 });
 
-router.put('/:driveinId/movies', async (req, res) => {
-  let foundDrivein = await Drivein.findByIdAndUpdate(
+router.put('/:driveinId', async (req, res) => {
+  console.log(req.body);
+
+  let drivein = new Drivein();
+
+  if (!Array.isArray(req.body.movies)) {
+    let temp = req.body.movies;
+    req.body.movies = [];
+    req.body.movies.push(temp);
+  }
+
+  req.body.movies.forEach ((movie, index) => {
+    Object.keys(req.body).forEach (key => {
+      if (movie === key) {
+        console.log(index, req.body[key]);
+        drivein.movies.push(movie);
+        let showtime = {movieshowtimes: []};
+        if (Array.isArray(req.body[key])) {
+          for (i=0; i<req.body[key].length; i++) {
+            showtime.movieshowtimes.push(req.body[key][i]);
+          }
+        }
+        else {
+          showtime.movieshowtimes.push(req.body[key]);
+        }
+        drivein.showtimes.push(showtime);
+      }
+    });
+  });
+
+  await Drivein.findByIdAndUpdate(
     req.params.driveinId,
     {
       $push: {
-        movies: req.body.movies,
+        movies: drivein.movies,
       },
     },
     { new: true, upsert: true }
   );
-  console.log(foundDrivein);
-  res.redirect(`/drivein/${foundDrivein.id}`);
+
+  await Drivein.findByIdAndUpdate(
+    req.params.driveinId,
+    {
+      $push: {
+        showtimes: drivein.showtimes,
+      },
+    },
+    { new: true, upsert: true }
+  );
+
+  res.redirect(`/driveins/${req.params.driveinId}`);
 });
 
 router.delete('/:driveinId/movies/:movieId', (req, res) => {
   console.log('DELETE MOVIE');
-  // set the value of the user and tweet ids
+
   const driveinId = req.params.driveinId;
   const movieId = req.params.movieId;
-  // find user in db by id
+
   Drivein.findById(driveinId, (err, foundDrivein) => {
-    // find tweet embedded in user
     let index = 0;
 
     for (let i=0; i<foundDrivein.movies.length; i++) {
@@ -87,7 +134,7 @@ router.delete('/:driveinId/movies/:movieId', (req, res) => {
 
     foundDrivein.movies.splice(index, 1);
     foundDrivein.showtimes.splice(index, 1);
-    // update tweet text and completed with data from request body
+
     foundDrivein.save((err, savedDrivein) => {
       res.redirect(`/driveins/${foundDrivein.id}`);
     });

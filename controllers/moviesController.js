@@ -38,27 +38,16 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   Movie.findByIdAndRemove(req.params.id, async (err, deletedMovie) => {
     let allDriveins = await Drivein.find({});
-    console.log(deletedMovie);
-    console.log(deletedMovie._id);
     allDriveins.forEach(async(driveinKey, moviesIndex) => {
-
-      let drivein = new Drivein();
-      drivein.name = driveinKey.name + " update";
 
       driveinKey.movies.forEach((movieKey, movieIndex) => {
         console.log(`movieKey is ${movieKey}`);
-        if (String(movieKey) == String(deletedMovie._id)) {
-          console.log(movieKey);
-          console.log(movieIndex);
-        }
-        else {
+        if (String(movieKey) != String(deletedMovie._id)) {
           drivein.movies.push(movieKey);
           drivein.showtimes.push(driveinKey.showtimes[movieIndex]);
         }
       });
 
-      console.log(drivein.movies);
-      console.log(driveinKey._id);
       await Drivein.findByIdAndUpdate(
         driveinKey._id,
         {movies: drivein.movies},
