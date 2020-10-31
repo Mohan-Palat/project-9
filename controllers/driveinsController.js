@@ -18,15 +18,13 @@ router.get('/:id', async (req, res) => {
   let foundDrivein = await Drivein.findById(req.params.id).populate({
     path: 'movies',
    });
-  // let foundDrivein = await Drivein.findById(req.params.id).populate({
-  //   path: 'movies',
-  //   options: { sort: { ['name']: 1 } },
-  // });
+
   res.render('driveins/show.ejs', {
     drivein: foundDrivein,
     movies: allMovies,
   });
 });
+
 
 router.post('/', async (req, res) => {
   console.log(req.body);
@@ -59,14 +57,12 @@ router.post('/', async (req, res) => {
   });
 
   await drivein.save();
-  console.log(drivein);
   res.redirect(`/driveins/${drivein.id}`);
 });
 
+
 router.put('/:driveinId', async (req, res) => {
   console.log(req.body);
-
-  let drivein = new Drivein();
 
   if (!Array.isArray(req.body.movies)) {
     let temp = req.body.movies;
@@ -74,7 +70,17 @@ router.put('/:driveinId', async (req, res) => {
     req.body.movies.push(temp);
   }
 
+  let drivein = new Drivein();
+
+  await Drivein.findById(req.params.driveinId, async (err, foundDrivein) => {
+    for (let i=0; i<foundDrivein.movies.length; i++) {
+      drivein.movies.push(foundDrivein.movies[i]);
+      drivein.showtimes.push(foundDrivein.showtimes[i]);
+    }
+  });
+
   req.body.movies.forEach ((movie, index) => {
+
     Object.keys(req.body).forEach (key => {
       if (movie === key) {
         console.log(index, req.body[key]);
@@ -93,28 +99,45 @@ router.put('/:driveinId', async (req, res) => {
     });
   });
 
+  let duplicateFlag = true;
+  while (duplicateFlag) {
+    duplicateFlag = false;
+    for (let i=0; i<drivein.movies.length; i++) {
+      for (let j=i; j<drivein.movies.length; j++) {
+        if (i != j) {
+          if (String(drivein.movies[i]) == String(drivein.movies[j])) {
+            drivein.movies.splice(i, 1);
+            drivein.showtimes.splice(i, 1);
+            duplicateFlag = true;
+          }
+        }
+      }
+    }
+  }
+
   await Drivein.findByIdAndUpdate(
     req.params.driveinId,
     {
-      $push: {
+      $set: {
         movies: drivein.movies,
       },
     },
-    { new: true, upsert: true }
+    { new: true, upsert: false }
   );
 
   await Drivein.findByIdAndUpdate(
     req.params.driveinId,
     {
-      $push: {
+      $set: {
         showtimes: drivein.showtimes,
       },
     },
-    { new: true, upsert: true }
+    { new: true, upsert: false }
   );
 
   res.redirect(`/driveins/${req.params.driveinId}`);
 });
+
 
 router.delete('/:driveinId/movies/:movieId', (req, res) => {
   console.log('DELETE MOVIE');
@@ -130,7 +153,6 @@ router.delete('/:driveinId/movies/:movieId', (req, res) => {
         index = i;
       }
     }
-    console.log(index);
 
     foundDrivein.movies.splice(index, 1);
     foundDrivein.showtimes.splice(index, 1);
@@ -140,6 +162,7 @@ router.delete('/:driveinId/movies/:movieId', (req, res) => {
     });
   });
 });
+
 
 // DELETE
 router.delete('/:id', (req, res) => {
