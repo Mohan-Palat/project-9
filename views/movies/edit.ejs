@@ -1,0 +1,25 @@
+<h1>Edit <%= foundMovie.title %></h1>
+<h4>Edit Movie</h4>
+<form action="/movies/<%= foundMovie.id %>?_method=PUT" method="POST">
+  <div class="form-group">
+    <label for="title">Movie Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      name="title"
+      value="<%= foundMovie.title %>"
+    />
+  </div>
+  <div class="form-group">
+    <label for="description">Movie Description </label>
+    <input
+      type="textbox"
+      class="form-control"
+      id="description"
+      name="description"
+      value="<%= foundMovie.description %>"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

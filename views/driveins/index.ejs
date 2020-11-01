@@ -16,6 +16,10 @@
                     <%= driveins[i].name %>
                 </a>
             </li>
+            <form action="/driveins/<%=driveins[i]._id%>/edit?_method=GET" method="POST">
+                <button>EDIT</button>
+            </form>
+            <br>
             <form action="/driveins/<%=driveins[i]._id%>?_method=DELETE" method="POST">
                 <button>DELETE</button>
             </form>

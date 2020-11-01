@@ -1,0 +1,15 @@
+<h1>Edit <%= foundDrivein.name %></h1>
+<h4>Edit Drive-In</h4>
+<form action="/driveins/<%= foundDrivein.id %>/editName?_method=PUT" method="POST">
+  <div class="form-group">
+    <label for="name">Drive-In Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      value="<%= foundDrivein.name %>"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

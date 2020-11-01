@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+</head>
+<body>
+    <h1>Movies</h1>
+    <a href="/movies/new" >Add Movie</a>
+    <br>
+    <ul>
+        <% for (let i=0; i<movies.length; i++) { %>
+            <li>
+                <a href="/movies/<%=movies[i]._id%>">
+                    <div><%= movies[i].title %></div>
+                </a>
+                <form action="/movies/<%=movies[i]._id%>?_method=DELETE" method="POST">
+                    <button>DELETE</button>
+                </form>
+                <br>
+
+                <div>Drive-Ins:
+                <ul>
+                <% for (let j=0; j<driveins.length; j++) { %>
+                    <% for (let k=0; k<driveins[j].movies.length; k++) { %>
+                        <% if (String(movies[i]._id) == String(driveins[j].movies[k]._id)) { %>
+                            <li>
+                                <a href="/driveins/<%=driveins[j]._id%>">
+                                    <%= driveins[j].name %>
+                                </a>
+                            </li>
+                        <% } %>
+                    <% } %>
+                <% } %>
+                </ul>
+                </div>
+            </li>
+            <br>
+        <% } %>
+    </ul>
+</body>
+</html>

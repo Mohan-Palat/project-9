@@ -48,6 +48,7 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 //localhost:3000
 app.use('/movies', require('./controllers/moviesController'));
 app.use('/driveins', require('./controllers/driveinsController'));
+app.use('/times', require('./controllers/timesController'));
 
 app.get('/' , (req, res) => {
   res.send('Hello World!');

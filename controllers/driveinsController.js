@@ -13,6 +13,17 @@ router.get('/new', async (req, res) => {
   res.render('driveins/new.ejs', { movies: allMovies });
 });
 
+
+router.get('/:driveinId/edit', (req, res) => {
+  // set the value of the user and tweet ids
+  const driveinId = req.params.driveinId;
+  // find user in db by id
+  Drivein.findById(driveinId, (err, foundDrivein) => {
+    res.render('driveins/edit.ejs', { foundDrivein });
+  });
+});
+
+
 router.get('/:id', async (req, res) => {
   let allMovies = await Movie.find({});
   let foundDrivein = await Drivein.findById(req.params.id).populate({
@@ -61,7 +72,21 @@ router.post('/', async (req, res) => {
 });
 
 
-router.put('/:driveinId', async (req, res) => {
+router.put('/:driveinId/editName', (req, res) => {
+  console.log('PUT ROUTE');
+  // set the value of the song id
+  const driveinId = req.params.driveinId;
+  // find movie in db by id
+  Drivein.findById(driveinId, (err, foundDrivein) => {
+    foundDrivein.name = req.body.name;
+    foundDrivein.save((err, savedDrivein) => {
+      res.redirect(`/driveins/${foundDrivein.id}`);
+    });
+  });
+});
+
+
+router.put('/:driveinId/edit', async (req, res) => {
   console.log(req.body);
 
   if (!Array.isArray(req.body.movies)) {

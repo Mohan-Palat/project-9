@@ -17,6 +17,16 @@ router.get('/new', (req, res) => {
   res.render('movies/new.ejs');
 });
 
+router.get('/:movieId/edit', (req, res) => {
+  // set the value of the user and tweet ids
+  const driveinId = req.params.driveinId;
+  const movieId = req.params.movieId;
+  // find user in db by id
+  Movie.findById(movieId, (err, foundMovie) => {
+    res.render('movies/edit.ejs', { foundMovie });
+  });
+});
+
 router.get('/:movieId', (req, res) => {
   Movie.findById(req.params.movieId, (error, movie) => {
     res.render('movies/show.ejs', { movie });
@@ -32,6 +42,20 @@ router.post('/', async (req, res) => {
     } catch (error) {
       res.send(error);
     }
+});
+
+router.put('/:movieId', (req, res) => {
+  console.log('PUT ROUTE');
+  // set the value of the song id
+  const movieId = req.params.movieId;
+  // find movie in db by id
+  Movie.findById(movieId, (err, foundMovie) => {
+    foundMovie.title = req.body.title;
+    foundMovie.description = req.body.description;
+    foundMovie.save((err, savedMovie) => {
+      res.redirect(`/movies/${foundMovie.id}`);
+    });
+  });
 });
 
 // DELETE
