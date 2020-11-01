@@ -74,7 +74,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:driveinId/editName', (req, res) => {
   console.log('PUT ROUTE');
-  // set the value of the song id
+  // set the value of the Drivein id
   const driveinId = req.params.driveinId;
   // find movie in db by id
   Drivein.findById(driveinId, (err, foundDrivein) => {
@@ -101,7 +101,7 @@ router.put('/:driveinId/edit', async (req, res) => {
   await Drivein.findById(req.params.driveinId, async (err, foundDrivein) => {
     console.log(`foundDrivein is ${foundDrivein}`);
     callSucceededFlag = true;
-    
+
     for (let i=0; i<foundDrivein.movies.length; i++) {
       drivein.movies.push(foundDrivein.movies[i]);
       drivein.showtimes.push(foundDrivein.showtimes[i]);
@@ -111,6 +111,7 @@ router.put('/:driveinId/edit', async (req, res) => {
   console.log(`1 drivein movies length is: ${drivein.movies.length}`);
   console.log(`callSucceededFlag is: ${callSucceededFlag}`);
 
+  // Check if DB findById call returned callback
   if (callSucceededFlag) {
     req.body.movies.forEach ((movie, index) => {
 

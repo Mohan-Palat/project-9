@@ -24,15 +24,15 @@
                                 <% if (driveins[j].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
                                     <% if (!movieFlag) { %>
                                         <li>
-                                        <a href="/movies/<%=movies[i]._id%>">
-                                            <h3><%= movies[i].title %></h3>
-                                        </a>
+                                            <a href="/movies/<%=movies[i]._id%>">
+                                                <h3><%= movies[i].title %></h3>
+                                            </a>
                                         </li>
                                         <% movieFlag = true %>
                                     <% } %>
                                 <% } %>
-
                             <% } %>
+                            
                         <% } %>
                     <% } %>
                 <% } %>

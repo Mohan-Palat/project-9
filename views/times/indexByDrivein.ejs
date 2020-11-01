@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+</head>
+<body>
+    <h1>Movies</h1>
+
+    <% for (let time=7; time<10; time++) { %>
+        <h2><%= time %>:00 Hour</h2>
+        
+        <ul>
+        <% for (let i=0; i<driveins.length; i++) { %>
+            <% let driveInFlag = false %>
+
+            <% for (let k=0; k<driveins[i].movies.length; k++) { %>
+
+                <!-- Loop over the movie times to find if there is a showtime during the hour -->
+                <% for (let l=0; l<driveins[i].showtimes[k].movieshowtimes.length; l++) { %>   
+                    <% if (driveins[i].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
+                        <% if (!driveInFlag) { %>
+                            <li>
+                                <a href="/driveins/<%=driveins[i]._id%>">
+                                    <h3><%= driveins[i].name %></h3>
+                                </a>
+                            </li>
+
+                            <% driveInFlag = true %>
+                        <% } %>
+                    <% } %>
+                <% } %>
+
+            <% } %>
+
+            <ul>
+            <% let movieFlag = false %>
+            <% for (let k=0; k<driveins[i].movies.length; k++) { %>
+                <!-- Loop over the movie times to find if there is a showtime during the hour -->
+                <% for (let l=0; l<driveins[i].showtimes[k].movieshowtimes.length; l++) { %>   
+                    <% if (driveins[i].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
+                        <% if (!movieFlag) { %>
+                            <h3>Movies:</h3>
+                            <% movieFlag = true %>
+                        <% } %>
+                                        
+                        <li>
+                            <a href="/movies/<%=driveins[i].movies[k]%>">
+                                <%= movies[k].title %>
+                            </a>
+                        </li>
+                    <% } %>
+                <% } %>
+            <% } %>
+            </ul>
+
+            <!-- If there was a list of drive-in movies, add a space -->
+            <% if (movieFlag) { %>
+                <br>
+            <% } %>
+
+        <% } %>
+        </ul>
+
+    <% } %>
+</body>
+</html>
