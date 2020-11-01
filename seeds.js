@@ -46,8 +46,8 @@ async function seed() {
   moonlightDrivein.movies.push(irishman);
   moonlightDrivein.movies.push(parasite); // associated!
 
-  moonlightDrivein.showtimes.push({movieshowtimes: ['6:00', '8:30']});
-  moonlightDrivein.showtimes.push({movieshowtimes: ['7:00', '9:30']}); // associated!
+  moonlightDrivein.showtimes.push({movieshowtimes: ['7:00', '8:00']});
+  moonlightDrivein.showtimes.push({movieshowtimes: ['7:00', '9:00']}); // associated!
 
   moonlightDrivein.save(function (err, savedmoonlightDrivein) {
     if (err) {

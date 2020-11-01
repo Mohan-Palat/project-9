@@ -7,37 +7,70 @@
 </head>
 <body>
     <h1>Movies</h1>
-    <a href="/movies/new" >Add Movie</a>
-    <br>
+
+    <% for (let time=7; time<10; time++) { %>
+
+    <h2><%= time %>:00 Hour</h2>
     <ul>
         <% for (let i=0; i<movies.length; i++) { %>
-            <li>
-                <a href="/movies/<%=movies[i]._id%>">
-                    <div><%= movies[i].title %></div>
-                </a>
-                <form action="/movies/<%=movies[i]._id%>?_method=DELETE" method="POST">
-                    <button>DELETE</button>
-                </form>
-                <br>
 
-                <div>Drive-Ins:
-                <ul>
+                <% let movieFlag = false %>
                 <% for (let j=0; j<driveins.length; j++) { %>
                     <% for (let k=0; k<driveins[j].movies.length; k++) { %>
                         <% if (String(movies[i]._id) == String(driveins[j].movies[k]._id)) { %>
-                            <li>
-                                <a href="/driveins/<%=driveins[j]._id%>">
-                                    <%= driveins[j].name %>
-                                </a>
-                            </li>
+
+                            <!-- Loop over the movie times to find if there is a showtime during the hour -->
+                            <% for (let l=0; l<driveins[j].showtimes[k].movieshowtimes.length; l++) { %>   
+                                <% if (driveins[j].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
+                                    <% if (!movieFlag) { %>
+                                        <li>
+                                        <a href="/movies/<%=movies[i]._id%>">
+                                            <h3><%= movies[i].title %></h3>
+                                        </a>
+                                        </li>
+                                        <% movieFlag = true %>
+                                    <% } %>
+                                <% } %>
+
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                <% } %>
+
+                <ul>
+                <% let driveInFlag = false %>
+                <% for (let j=0; j<driveins.length; j++) { %>
+                    <% for (let k=0; k<driveins[j].movies.length; k++) { %>
+                        <% if (String(movies[i]._id) == String(driveins[j].movies[k]._id)) { %>
+
+                            <!-- Loop over the movie times to find if there is a showtime during the hour -->
+                            <% for (let l=0; l<driveins[j].showtimes[k].movieshowtimes.length; l++) { %>   
+                                <% if (driveins[j].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
+                                    <% if (!driveInFlag) { %>
+                                        <h3>Drive-Ins:</h3>
+                                        <% driveInFlag = true %>
+                                    <% } %>
+                                    <li>
+                                        <a href="/driveins/<%=driveins[j]._id%>">
+                                            <%= driveins[j].name %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            <% } %>
+
                         <% } %>
                     <% } %>
                 <% } %>
                 </ul>
-                </div>
-            </li>
-            <br>
+
+                <!-- If there was a list of drive-in movies, add a space -->
+                <% if (driveInFlag) { %>
+                    <br>
+                <% } %>
+
         <% } %>
     </ul>
+
+    <% } %>
 </body>
 </html>

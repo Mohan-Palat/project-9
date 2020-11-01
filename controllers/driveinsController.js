@@ -96,69 +96,82 @@ router.put('/:driveinId/edit', async (req, res) => {
   }
 
   let drivein = new Drivein();
+  let callSucceededFlag = false;
 
   await Drivein.findById(req.params.driveinId, async (err, foundDrivein) => {
+    console.log(`foundDrivein is ${foundDrivein}`);
+    callSucceededFlag = true;
+    
     for (let i=0; i<foundDrivein.movies.length; i++) {
       drivein.movies.push(foundDrivein.movies[i]);
       drivein.showtimes.push(foundDrivein.showtimes[i]);
     }
   });
 
-  req.body.movies.forEach ((movie, index) => {
+  console.log(`1 drivein movies length is: ${drivein.movies.length}`);
+  console.log(`callSucceededFlag is: ${callSucceededFlag}`);
 
-    Object.keys(req.body).forEach (key => {
-      if (movie === key) {
-        console.log(index, req.body[key]);
-        drivein.movies.push(movie);
-        let showtime = {movieshowtimes: []};
-        if (Array.isArray(req.body[key])) {
-          for (i=0; i<req.body[key].length; i++) {
-            showtime.movieshowtimes.push(req.body[key][i]);
+  if (callSucceededFlag) {
+    req.body.movies.forEach ((movie, index) => {
+
+      Object.keys(req.body).forEach (key => {
+        if (movie === key) {
+          console.log(index, req.body[key]);
+          drivein.movies.push(movie);
+          let showtime = {movieshowtimes: []};
+          if (Array.isArray(req.body[key])) {
+            for (i=0; i<req.body[key].length; i++) {
+              showtime.movieshowtimes.push(req.body[key][i]);
+            } 
           }
+          else {
+            showtime.movieshowtimes.push(req.body[key]);
+          }
+          drivein.showtimes.push(showtime);
         }
-        else {
-          showtime.movieshowtimes.push(req.body[key]);
-        }
-        drivein.showtimes.push(showtime);
-      }
+      });
     });
-  });
 
-  let duplicateFlag = true;
-  while (duplicateFlag) {
-    duplicateFlag = false;
-    for (let i=0; i<drivein.movies.length; i++) {
-      for (let j=i; j<drivein.movies.length; j++) {
-        if (i != j) {
-          if (String(drivein.movies[i]) == String(drivein.movies[j])) {
-            drivein.movies.splice(i, 1);
-            drivein.showtimes.splice(i, 1);
-            duplicateFlag = true;
+    console.log(`2 drivein movies length is: ${drivein.movies.length}`);
+
+    let duplicateFlag = true;
+    while (duplicateFlag) {
+      duplicateFlag = false;
+      for (let i=0; i<drivein.movies.length; i++) {
+        for (let j=i; j<drivein.movies.length; j++) {
+          if (i != j) {
+            if (String(drivein.movies[i]) == String(drivein.movies[j])) {
+              drivein.movies.splice(i, 1);
+              drivein.showtimes.splice(i, 1);
+              duplicateFlag = true;
+            }
           }
         }
       }
     }
+
+    console.log(`3 drivein movies length is: ${drivein.movies.length}`);
+
+    await Drivein.findByIdAndUpdate(
+      req.params.driveinId,
+      {
+        $set: {
+          movies: drivein.movies,
+        },
+      },
+      { new: true, upsert: false }
+    );
+
+    await Drivein.findByIdAndUpdate(
+      req.params.driveinId,
+      {
+        $set: {
+          showtimes: drivein.showtimes,
+        },
+      },
+      { new: true, upsert: false }
+    );
   }
-
-  await Drivein.findByIdAndUpdate(
-    req.params.driveinId,
-    {
-      $set: {
-        movies: drivein.movies,
-      },
-    },
-    { new: true, upsert: false }
-  );
-
-  await Drivein.findByIdAndUpdate(
-    req.params.driveinId,
-    {
-      $set: {
-        showtimes: drivein.showtimes,
-      },
-    },
-    { new: true, upsert: false }
-  );
 
   res.redirect(`/driveins/${req.params.driveinId}`);
 });
