@@ -1,0 +1,39 @@
+body {
+    background-image: url('../img/DriveinBackground1.jpg');
+    background-size: cover;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+body.showMovie {
+    background-color: red;
+}
+
+body.driveinIndex {
+    background-color: red;
+}
+
+h1 {
+    background-color: gold;
+}
+
+h3 {
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+label {
+    color: white;
+}
+
+input.textarea {
+    height: 50px;
+    width: 300px;
+}
