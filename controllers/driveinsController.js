@@ -2,24 +2,41 @@ const router = require('express').Router();
 const Drivein = require('../models/drivein');
 const Movie = require('../models/movie');
 
+const isAuthenticated = (req, res, next) => {
+  if (req.session.currentUser) {
+    return next()
+  } else {
+    res.redirect('/sessions/new')
+  }
+}
+
 router.get('/', async (req, res) => {
   console.log('Index Route');
   let allDriveins = await Drivein.find({});
-  res.render('driveins/index.ejs', { driveins: allDriveins });
+  res.render('driveins/index.ejs', { 
+    driveins: allDriveins,
+    currentUser: req.session.currentUser 
+  });
 });
 
-router.get('/new', async (req, res) => {
+router.get('/new', isAuthenticated, async (req, res) => {
   let allMovies = await Movie.find({});
-  res.render('driveins/new.ejs', { movies: allMovies });
+  res.render('driveins/new.ejs', { 
+    movies: allMovies,
+    currentUser: req.session.currentUser
+   });
 });
 
 
-router.get('/:driveinId/edit', (req, res) => {
+router.get('/:driveinId/edit', isAuthenticated, (req, res) => {
   // set the value of the user and tweet ids
   const driveinId = req.params.driveinId;
   // find user in db by id
   Drivein.findById(driveinId, (err, foundDrivein) => {
-    res.render('driveins/edit.ejs', { foundDrivein });
+    res.render('driveins/edit.ejs', { 
+      foundDrivein,
+      currentUser: req.session.currentUser
+    });
   });
 });
 
@@ -28,16 +45,18 @@ router.get('/:id', async (req, res) => {
   let allMovies = await Movie.find({});
   let foundDrivein = await Drivein.findById(req.params.id).populate({
     path: 'movies',
+    currentUser: req.session.currentUser
    });
 
   res.render('driveins/show.ejs', {
     drivein: foundDrivein,
     movies: allMovies,
+    currentUser: req.session.currentUser
   });
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/', isAuthenticated, async (req, res) => {
   console.log(req.body);
   let drivein = new Drivein();
   drivein.name = req.body.name;
@@ -72,7 +91,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.put('/:driveinId/editName', (req, res) => {
+router.put('/:driveinId/editName', isAuthenticated, (req, res) => {
   console.log('PUT ROUTE');
   // set the value of the Drivein id
   const driveinId = req.params.driveinId;
@@ -86,7 +105,7 @@ router.put('/:driveinId/editName', (req, res) => {
 });
 
 
-router.put('/:driveinId/edit', async (req, res) => {
+router.put('/:driveinId/edit', isAuthenticated, async (req, res) => {
   console.log(req.body);
 
   if (!Array.isArray(req.body.movies)) {
@@ -98,15 +117,25 @@ router.put('/:driveinId/edit', async (req, res) => {
   let drivein = new Drivein();
   let callSucceededFlag = false;
 
-  await Drivein.findById(req.params.driveinId, async (err, foundDrivein) => {
-    console.log(`foundDrivein is ${foundDrivein}`);
-    callSucceededFlag = true;
+  // await Drivein.findById(req.params.driveinId, async (err, foundDrivein) => {
+  //   console.log(`foundDrivein is ${foundDrivein}`);
+  //   callSucceededFlag = true;
 
-    for (let i=0; i<foundDrivein.movies.length; i++) {
-      drivein.movies.push(foundDrivein.movies[i]);
-      drivein.showtimes.push(foundDrivein.showtimes[i]);
-    }
-  });
+  //   for (let i=0; i<foundDrivein.movies.length; i++) {
+  //     drivein.movies.push(foundDrivein.movies[i]);
+  //     drivein.showtimes.push(foundDrivein.showtimes[i]);
+  //   }
+  // });
+
+  let foundDrivein = await Drivein.findById(req.params.driveinId);
+  
+  console.log(`foundDrivein is ${foundDrivein}`);
+  callSucceededFlag = true;
+
+  for (let i=0; i<foundDrivein.movies.length; i++) {
+        drivein.movies.push(foundDrivein.movies[i]);
+        drivein.showtimes.push(foundDrivein.showtimes[i]);
+  }
 
   console.log(`1 drivein movies length is: ${drivein.movies.length}`);
   console.log(`callSucceededFlag is: ${callSucceededFlag}`);
@@ -178,7 +207,7 @@ router.put('/:driveinId/edit', async (req, res) => {
 });
 
 
-router.delete('/:driveinId/movies/:movieId', (req, res) => {
+router.delete('/:driveinId/movies/:movieId', isAuthenticated, (req, res) => {
   console.log('DELETE MOVIE');
 
   const driveinId = req.params.driveinId;
@@ -204,7 +233,7 @@ router.delete('/:driveinId/movies/:movieId', (req, res) => {
 
 
 // DELETE
-router.delete('/:id', (req, res) => {
+router.delete('/:id', isAuthenticated, (req, res) => {
   Drivein.findByIdAndRemove(req.params.id, (err, deletedFruit) => {
     res.redirect('/driveins');
   })

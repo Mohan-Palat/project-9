@@ -15,10 +15,13 @@
     <% } %>
     </ul>
 
-    <form action="/driveins/<%= drivein.id %>/movies/<%= drivein.movies[i].id %>?_method=DELETE" method="POST">
-      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-    </form>
+    <% if (currentUser) { %>
+      <form action="/driveins/<%= drivein.id %>/movies/<%= drivein.movies[i].id %>?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+      </form>
+    <% } %>
     <br>
+    
   </li>
   <% } %>
 </ul>
@@ -27,44 +30,45 @@
   <button>EDIT DRIVEIN</button>
 </form> -->
 
-<h3>Add or Update Movies</h3>
-<form action="/driveins/<%= drivein.id %>/edit?_method=PUT" method="POST">
+<% if (currentUser) { %>
+  <h3>Add or Update Movies</h3>
+  <form action="/driveins/<%= drivein.id %>/edit?_method=PUT" method="POST">
   
-  <% movies.forEach((movie, index) => { %>
-  <input
-    type="checkbox"
-    id="<%= movie.title %>"
-    name="movies"
-    value="<%= movie.id %>"
-  />
-  <label for="<%= movie.title %>"><%= movie.title %></label><br/>
+    <% movies.forEach((movie, index) => { %>
+      <input
+        type="checkbox"
+        id="<%= movie.title %>"
+        name="movies"
+        value="<%= movie.id %>"
+      />
+      <label for="<%= movie.title %>"><%= movie.title %></label><br/>
 
-  <input
-  type="checkbox"
-  id="time7"
-  name="<%= movie.id %>"
-  value="7:00"
-  />
-  <label for="time7">7:00</label><br/>
+      <input
+      type="checkbox"
+      id="time7"
+      name="<%= movie.id %>"
+      value="7:00"
+      />
+      <label for="time7">7:00</label><br/>
 
-  <input
-    type="checkbox"
-    id="time8"
-    name="<%= movie.id %>"
-    value="8:00"
-  />
-  <label for="time8">8:00</label><br/>
+      <input
+        type="checkbox"
+        id="time8"
+        name="<%= movie.id %>"
+        value="8:00"
+      />
+      <label for="time8">8:00</label><br/>
 
-  <input
-    type="checkbox"
-    id="time9"
-    name="<%= movie.id %>"
-    value="9:00"
-  />
-  <label for="time9">9:00</label><br/>
-  <br>
-  
-  <% })%>
+      <input
+        type="checkbox"
+        id="time9"
+        name="<%= movie.id %>"
+        value="9:00"
+      />
+      <label for="time9">9:00</label><br/>
+      <br>
+    <% })%>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+<% } %>

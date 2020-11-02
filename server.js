@@ -4,11 +4,13 @@
 //___________________
 //Dependencies
 //___________________
+require('dotenv').config();
 const express = require('express');
+const session = require('express-session')
 const methodOverride  = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require ('mongoose');
-const app = express ();
+const app = express();
 const db = mongoose.connection;
 //___________________
 //Port
@@ -37,6 +39,15 @@ db.on('open' , ()=>{});
 //Middleware
 //___________________
 //use public folder for static assets
+
+app.use(
+  session({
+    secret: process.env.SECRET, //a random string do not copy this value or your stuff will get hacked
+    resave: false, // default more info: https://www.npmjs.com/package/express-session#resave
+    saveUninitialized: false // default  more info: https://www.npmjs.com/package/express-session#resave
+  })
+);
+
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static('public'));
@@ -52,9 +63,11 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 app.use('/movies', require('./controllers/moviesController'));
 app.use('/driveins', require('./controllers/driveinsController'));
 app.use('/times', require('./controllers/timesController'));
+app.use('/users', require('./controllers/users_Controller'))
+app.use('/sessions', require('./controllers/sessions_Controller'))
 
 app.get('/' , (req, res) => {
-  res.send('Hello World!');
+  res.redirect('/driveins');
 });
 //___________________
 //Listener

@@ -2,6 +2,14 @@ const router = require('express').Router();
 const Drivein = require('../models/drivein');
 const Movie = require('../models/movie.js');
 
+const isAuthenticated = (req, res, next) => {
+  if (req.session.currentUser) {
+    return next()
+  } else {
+    res.redirect('/sessions/new')
+  }
+}
+
 //NEW MOVIE FORM
 router.get('/', async (req, res) => {
     console.log('Index Route');
@@ -9,32 +17,41 @@ router.get('/', async (req, res) => {
     let allDriveins = await Drivein.find({});
     res.render('movies/index.ejs', { 
       movies: allMovies ,
-      driveins: allDriveins
+      driveins: allDriveins,
+      currentUser: req.session.currentUser
     });
 });
 
-router.get('/new', (req, res) => {
-  res.render('movies/new.ejs');
+router.get('/new', isAuthenticated, (req, res) => {
+  res.render('movies/new.ejs', {
+    currentUser: req.session.currentUser
+  });
 });
 
-router.get('/:movieId/edit', (req, res) => {
+router.get('/:movieId/edit', isAuthenticated, (req, res) => {
   // set the value of the user and tweet ids
   const driveinId = req.params.driveinId;
   const movieId = req.params.movieId;
   // find user in db by id
   Movie.findById(movieId, (err, foundMovie) => {
-    res.render('movies/edit.ejs', { foundMovie });
+    res.render('movies/edit.ejs', { 
+      foundMovie,
+      currentUser: req.session.currentUser
+    });
   });
 });
 
 router.get('/:movieId', (req, res) => {
   Movie.findById(req.params.movieId, (error, movie) => {
-    res.render('movies/show.ejs', { movie });
+    res.render('movies/show.ejs', { 
+      movie,
+      currentUser: req.session.currentUser
+    });
   });
 });
 
 // CREATE A NEW MOVIE
-router.post('/', async (req, res) => {
+router.post('/', isAuthenticated, async (req, res) => {
     try {
       let newMovie = await Movie.create(req.body);
       res.redirect(`/movies/${newMovie.id}`);
@@ -44,7 +61,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:movieId', (req, res) => {
+router.put('/:movieId', isAuthenticated, (req, res) => {
   console.log('PUT ROUTE');
   // set the value of the song id
   const movieId = req.params.movieId;
@@ -59,33 +76,63 @@ router.put('/:movieId', (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
-  Movie.findByIdAndRemove(req.params.id, async (err, deletedMovie) => {
-    let allDriveins = await Drivein.find({});
-    allDriveins.forEach(async(driveinKey, moviesIndex) => {
+router.delete('/:id', isAuthenticated, async (req, res) => {
+  // Movie.findByIdAndRemove(req.params.id, async (err, deletedMovie) => {
+  //   let allDriveins = await Drivein.find({});
+  //   allDriveins.forEach(async(driveinKey, moviesIndex) => {
 
-      driveinKey.movies.forEach((movieKey, movieIndex) => {
-        console.log(`movieKey is ${movieKey}`);
-        if (String(movieKey) != String(deletedMovie._id)) {
-          drivein.movies.push(movieKey);
-          drivein.showtimes.push(driveinKey.showtimes[movieIndex]);
+  //     driveinKey.movies.forEach((movieKey, movieIndex) => {
+  //       console.log(`movieKey is ${movieKey}`);
+  //       if (String(movieKey) != String(deletedMovie._id)) {
+  //         drivein.movies.push(movieKey);
+  //         drivein.showtimes.push(driveinKey.showtimes[movieIndex]);
+  //       }
+  //     });
+
+    let deletedMovie = await Movie.findByIdAndRemove(req.params.id);
+    console.log(`deletedMovie is ${deletedMovie}`);
+    let allDriveins = await Drivein.find({});
+
+    let tempMovies = [];
+    let tempShowtimes = [];
+
+    allDriveins.forEach( async (drivein, moviesIndex) => {
+      console.log(`drivein is ${drivein}`);
+      drivein.movies.forEach((movie, index) => {
+        console.log(`movie is ${movie}`);
+        if (String(movie) != String(deletedMovie._id)) {
+          tempMovies.push(movie);
+          console.log(`movie to keep is ${movie}`);
+          tempShowtimes.push(drivein.showtimes[index]);
+          console.log(`showtime to keep is ${drivein.showtimes[index]}`);
         }
       });
 
-      await Drivein.findByIdAndUpdate(
-        driveinKey._id,
-        {movies: drivein.movies},
-        { new: true, upsert: false }
-      );
-      await Drivein.findByIdAndUpdate(
-        driveinKey._id,
-        {showtimes: drivein.showtimes},
-        { new: true, upsert: false }
-      );
-    });
+      console.log(`tempMovies to keep is ${tempMovies}`);
+      console.log(`tempShowtimes to keep is ${tempShowtimes}`);
 
-    res.redirect('/movies');
+      await Drivein.findByIdAndUpdate(
+        drivein._id,
+        {
+          $set: {
+            movies: tempMovies,
+          },
+        },
+        { new: true, upsert: false }
+      );
+
+      await Drivein.findByIdAndUpdate(
+        drivein._id,
+        {
+          $set: {
+            showtimes: tempShowtimes,
+          },
+        },
+        { new: true, upsert: false }
+      );
   });
+
+  res.redirect('/movies');
 });
 
 module.exports = router;

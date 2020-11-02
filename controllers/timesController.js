@@ -2,6 +2,14 @@ const router = require('express').Router();
 const Drivein = require('../models/drivein');
 const Movie = require('../models/movie.js');
 
+const isAuthenticated = (req, res, next) => {
+  if (req.session.currentUser) {
+    return next()
+  } else {
+    res.redirect('/sessions/new')
+  }
+}
+
 //TIME FORM
 router.get('/movie', async (req, res) => {
     console.log('Index ByMovie Route');
@@ -9,7 +17,8 @@ router.get('/movie', async (req, res) => {
     let allDriveins = await Drivein.find({});
     res.render('times/indexByMovie.ejs', { 
       movies: allMovies ,
-      driveins: allDriveins
+      driveins: allDriveins,
+      currentUser: req.session.currentUser
     });
 });
 
@@ -19,7 +28,8 @@ router.get('/drivein', async (req, res) => {
   let allDriveins = await Drivein.find({});
   res.render('times/indexByDrivein.ejs', { 
     movies: allMovies ,
-    driveins: allDriveins
+    driveins: allDriveins,
+    currentUser: req.session.currentUser
   });
 });
 

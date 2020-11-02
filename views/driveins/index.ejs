@@ -7,8 +7,10 @@
 </head>
 <body class="driveinIndex">
     <h1>Drive-Ins</h1>
-    <a href="/driveins/new" >Create New Drive-In</a>
-    <br>
+    <% if (currentUser) { %>
+        <a href="/driveins/new" >Create New Drive-In</a>
+        <br>
+    <% } %>
     <ul>
         <% for (let i=0; i<driveins.length; i++) { %>
             <li>
@@ -17,15 +19,17 @@
                 </a>
             </li>
 
-            <div class="driveinButtonControlList">
-            <form action="/driveins/<%=driveins[i]._id%>/edit?_method=GET" method="POST">
-                <button>EDIT</button>
-            </form>
-            <br>
-            <form action="/driveins/<%=driveins[i]._id%>?_method=DELETE" method="POST">
-                <button>DELETE</button>
-            </form>
-            </div>
+            <% if (currentUser) { %>
+                <div class="driveinButtonControlList">
+                    <form action="/driveins/<%=driveins[i]._id%>/edit?_method=GET" method="POST">
+                        <button>EDIT</button>
+                    </form>
+                    <br>
+                    <form action="/driveins/<%=driveins[i]._id%>?_method=DELETE" method="POST">
+                        <button>DELETE</button>
+                    </form>
+                </div>
+                <% } %>
             <br>
         <% } %>
     </ul>
