@@ -4,27 +4,28 @@
 <ul>
     <% for (let i=0; i<drivein.movies.length; i++) { %>
   <li>
-    <a href="/movies/<%= drivein.movies[i].id %>"><%= drivein.movies[i].title %></a>
-    <br>
+    <h3><a href="/movies/<%= drivein.movies[i].id %>"><%= drivein.movies[i].title %></a></h3>
 
-    <div>Showtimes:
+    <div class="showtimes">Showtimes:</div>
+    <ul>
     <% if (drivein.showtimes[i] != null) {%>
       <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
-        <%= drivein.showtimes[i].movieshowtimes[j] %>
+        <li><div class="showtime"><%= drivein.showtimes[i].movieshowtimes[j] %></div></li>
       <% } %>
     <% } %>
-    </div>
+    </ul>
 
     <form action="/driveins/<%= drivein.id %>/movies/<%= drivein.movies[i].id %>?_method=DELETE" method="POST">
       <button type="submit" class="btn btn-danger btn-sm">Delete</button>
     </form>
+    <br>
   </li>
   <% } %>
 </ul>
 
-<form action="/driveins/<%=drivein.id%>/edit?_method=GET" method="POST">
+<!-- <form action="/driveins/<%=drivein.id%>/edit?_method=GET" method="POST">
   <button>EDIT DRIVEIN</button>
-</form>
+</form> -->
 
 <h3>Add or Update Movies</h3>
 <form action="/driveins/<%= drivein.id %>/edit?_method=PUT" method="POST">

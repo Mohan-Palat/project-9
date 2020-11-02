@@ -9,19 +9,20 @@ nav {
     justify-content: space-evenly;
 }
 
-body.showMovie {
-    background-color: red;
-}
-
-body.driveinIndex {
-    background-color: red;
-}
-
 h1 {
     background-color: gold;
+    align-content: center;
+}
+
+h2 {
+    color: gold;
 }
 
 h3 {
+    color: white;
+}
+
+div.driveinList {
     color: white;
 }
 
@@ -30,6 +31,32 @@ a {
 }
 
 label {
+    color: white;
+}
+
+div.driveinButtonControlList {
+    display: flex;
+    flex-direction: row;
+}
+
+div.driveinButtonControlList > form {
+    margin: 5px;
+}
+
+div.movieButtonControlList {
+    display: flex;
+    flex-direction: row;
+}
+
+div.movieButtonControlList > form {
+    margin: 5px;
+}
+
+div.showtimes {
+    color: white;
+}
+
+div.showtime {
     color: white;
 }
 

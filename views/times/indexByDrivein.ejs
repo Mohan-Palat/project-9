@@ -44,12 +44,17 @@
                             <h3>Movies:</h3>
                             <% movieFlag = true %>
                         <% } %>
-                                        
-                        <li>
-                            <a href="/movies/<%=driveins[i].movies[k]%>">
-                                <%= movies[k].title %>
-                            </a>
-                        </li>
+                        
+                        <% for (let m=0; m<movies.length; m++) { %>
+                            <% if (String(driveins[i].movies[k]) == String(movies[m]._id)) { %>
+                                <li>
+                                    <a href="/movies/<%=driveins[i].movies[k]%>">
+                                        <%= movies[m].title %>
+                                    </a>
+                                </li>
+                            <% } %>
+                        <% } %>
+                        
                     <% } %>
                 <% } %>
             <% } %>

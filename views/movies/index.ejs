@@ -13,14 +13,10 @@
         <% for (let i=0; i<movies.length; i++) { %>
             <li>
                 <a href="/movies/<%=movies[i]._id%>">
-                    <div><%= movies[i].title %></div>
+                    <h3><%= movies[i].title %></h3>
                 </a>
-                <form action="/movies/<%=movies[i]._id%>?_method=DELETE" method="POST">
-                    <button>DELETE</button>
-                </form>
-                <br>
 
-                <div>Drive-Ins:
+                <div class="driveinList">Drive-Ins:</div>
                 <ul>
                 <% for (let j=0; j<driveins.length; j++) { %>
                     <% for (let k=0; k<driveins[j].movies.length; k++) { %>
@@ -34,9 +30,9 @@
                     <% } %>
                 <% } %>
                 </ul>
-                </div>
+
             </li>
-            <br>
+            <br><br>
         <% } %>
     </ul>
 </body>

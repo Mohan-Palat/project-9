@@ -16,6 +16,8 @@
                     <%= driveins[i].name %>
                 </a>
             </li>
+
+            <div class="driveinButtonControlList">
             <form action="/driveins/<%=driveins[i]._id%>/edit?_method=GET" method="POST">
                 <button>EDIT</button>
             </form>
@@ -23,6 +25,7 @@
             <form action="/driveins/<%=driveins[i]._id%>?_method=DELETE" method="POST">
                 <button>DELETE</button>
             </form>
+            </div>
             <br>
         <% } %>
     </ul>
