@@ -93,11 +93,11 @@ router.delete('/:id', isAuthenticated, async (req, res) => {
     console.log(`deletedMovie is ${deletedMovie}`);
     let allDriveins = await Drivein.find({});
 
-    let tempMovies = [];
-    let tempShowtimes = [];
-
     allDriveins.forEach( async (drivein, moviesIndex) => {
       console.log(`drivein is ${drivein}`);
+      
+      let tempMovies = [];
+      let tempShowtimes = [];
       drivein.movies.forEach((movie, index) => {
         console.log(`movie is ${movie}`);
         if (String(movie) != String(deletedMovie._id)) {
