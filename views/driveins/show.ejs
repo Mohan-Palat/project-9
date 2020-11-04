@@ -1,16 +1,16 @@
-<h1><%= drivein.name %>'s Detail Page</h1>
+<h1><%= drivein.name %></h1>
 
-<h1>Movies</h1>
+<h2>Movies</h2>
 <ul>
     <% for (let i=0; i<drivein.movies.length; i++) { %>
   <li>
-    <h3><a href="/movies/<%= drivein.movies[i].id %>"><%= drivein.movies[i].title %></a></h3>
+    <a href="/movies/<%= drivein.movies[i].id %>"><h4><%= drivein.movies[i].title %></h4></a>
 
-    <div class="showtimes">Showtimes:</div>
+    <h5 class="showtimes">Showtimes:</h5>
     <ul>
     <% if (drivein.showtimes[i] != null) {%>
       <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
-        <li><div class="showtime"><%= drivein.showtimes[i].movieshowtimes[j] %></div></li>
+        <li><div class="showtime"><h6><%= drivein.showtimes[i].movieshowtimes[j] %></h6></div></li>
       <% } %>
     <% } %>
     </ul>
@@ -20,53 +20,43 @@
         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
       </form>
     <% } %>
-    <br>
     
   </li>
   <% } %>
 </ul>
-
+<br>
 <!-- <form action="/driveins/<%=drivein.id%>/edit?_method=GET" method="POST">
   <button>EDIT DRIVEIN</button>
 </form> -->
 
 <% if (currentUser) { %>
-  <h3>Add or Update Movies</h3>
+  <h4 class="title-header">Add or Update Movies</h4>
   <form action="/driveins/<%= drivein.id %>/edit?_method=PUT" method="POST">
   
-    <% movies.forEach((movie, index) => { %>
-      <input
-        type="checkbox"
-        id="<%= movie.title %>"
-        name="movies"
-        value="<%= movie.id %>"
-      />
-      <label for="<%= movie.title %>"><%= movie.title %></label><br/>
+    <% movies.forEach((movie, index) => { %>     
+      <label for="<%= movie.title %>">
+        <input class="movie-label" type="checkbox" name="movies" id="<%= movie.title %>" value="<%= movie.id %>"/>
+        <span><h6><%= movie.title %></h6></span>
+      </label>
 
-      <input
-      type="checkbox"
-      id="time7"
-      name="<%= movie.id %>"
-      value="7:00"
-      />
-      <label for="time7">7:00</label><br/>
+      <br><br>
 
-      <input
-        type="checkbox"
-        id="time8"
-        name="<%= movie.id %>"
-        value="8:00"
-      />
-      <label for="time8">8:00</label><br/>
+      <label class="time-label" for="time7<%= movie.id %>">
+        <input type="checkbox" name="<%= movie.id %>" id="time7<%= movie.id %>" value="7:00"/>
+        <span>7:00</span>
+      </label>
 
-      <input
-        type="checkbox"
-        id="time9"
-        name="<%= movie.id %>"
-        value="9:00"
-      />
-      <label for="time9">9:00</label><br/>
-      <br>
+      <label class="time-label" for="time8<%= movie.id %>">
+        <input type="checkbox" name="<%= movie.id %>" id="time8<%= movie.id %>" value="8:00"/>
+        <span>8:00</span>
+      </label>
+
+      <label class="time-label" for="time9<%= movie.id %>">
+        <input type="checkbox" name="<%= movie.id %>" id="time9<%= movie.id %>" value="9:00"/>
+        <span>9:00</span>
+      </label>
+
+      <br><br><br><br>
     <% })%>
 
     <button type="submit" class="btn btn-primary">Submit</button>

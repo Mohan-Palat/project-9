@@ -6,11 +6,11 @@
     <title>Movies</title>
 </head>
 <body>
-    <h1>Movies</h1>
+    <h2>Movies By Movie Title</h2>
 
     <% for (let time=7; time<10; time++) { %>
 
-    <h2><%= time %>:00 Hour</h2>
+    <h3><%= time %>:00 Hour</h3>
     <ul>
         <% for (let i=0; i<movies.length; i++) { %>
 
@@ -25,7 +25,7 @@
                                     <% if (!movieFlag) { %>
                                         <li>
                                             <a href="/movies/<%=movies[i]._id%>">
-                                                <h3><%= movies[i].title %></h3>
+                                                <h4><%= movies[i].title %></h4>
                                             </a>
                                         </li>
                                         <% movieFlag = true %>
@@ -47,12 +47,12 @@
                             <% for (let l=0; l<driveins[j].showtimes[k].movieshowtimes.length; l++) { %>   
                                 <% if (driveins[j].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
                                     <% if (!driveInFlag) { %>
-                                        <h3>Drive-Ins:</h3>
+                                        <h5>Drive-Ins:</h5>
                                         <% driveInFlag = true %>
                                     <% } %>
                                     <li>
                                         <a href="/driveins/<%=driveins[j]._id%>">
-                                            <%= driveins[j].name %>
+                                            <h6><%= driveins[j].name %></h6>
                                         </a>
                                     </li>
                                 <% } %>

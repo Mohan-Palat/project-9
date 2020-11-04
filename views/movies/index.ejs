@@ -6,24 +6,24 @@
     <title>Movies</title>
 </head>
 <body>
-    <h1>Movies</h1>
-    <a href="/movies/new" >Add Movie</a>
+    <h2>Movies</h2>
+    <a id="addMovie" href="/movies/new" ><h5>Add Movie</h5></a>
     <br>
     <ul>
         <% for (let i=0; i<movies.length; i++) { %>
             <li>
                 <a href="/movies/<%=movies[i]._id%>">
-                    <h3><%= movies[i].title %></h3>
+                    <h4><%= movies[i].title %></h4>
                 </a>
 
-                <div class="driveinList">Drive-Ins:</div>
+                <h5 class="driveinList">Drive-Ins:</h5>
                 <ul>
                 <% for (let j=0; j<driveins.length; j++) { %>
                     <% for (let k=0; k<driveins[j].movies.length; k++) { %>
                         <% if (String(movies[i]._id) == String(driveins[j].movies[k]._id)) { %>
                             <li>
                                 <a href="/driveins/<%=driveins[j]._id%>">
-                                    <%= driveins[j].name %>
+                                    <h6><%= driveins[j].name %></h6>
                                 </a>
                             </li>
                         <% } %>

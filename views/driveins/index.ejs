@@ -6,16 +6,16 @@
     <title>Drive-Ins</title>
 </head>
 <body class="driveinIndex">
-    <h1>Drive-Ins</h1>
+    <h2>Drive-Ins</h2>
     <% if (currentUser) { %>
-        <a href="/driveins/new" >Create New Drive-In</a>
+        <h5><a href="/driveins/new" >Create New Drive-In</a></h5>
         <br>
     <% } %>
     <ul>
         <% for (let i=0; i<driveins.length; i++) { %>
             <li>
                 <a href="/driveins/<%=driveins[i]._id%>">
-                    <h3><%= driveins[i].name %></h3>
+                    <h5><%= driveins[i].name %></h5>
                 </a>
             </li>
 

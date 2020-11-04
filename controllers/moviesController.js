@@ -52,7 +52,8 @@ router.get('/:movieId', (req, res) => {
 
 // CREATE A NEW MOVIE
 router.post('/', isAuthenticated, async (req, res) => {
-    try {
+  console.log(req.body);
+  try {
       let newMovie = await Movie.create(req.body);
       res.redirect(`/movies/${newMovie.id}`);
       // res.send(newMovie);

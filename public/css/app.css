@@ -1,3 +1,11 @@
+.nav {
+    background-color: hsl(0, 0%, 0%) !important;
+  }
+
+ul {
+    margin-left: 20px;
+}
+
 body {
     background-image: url('../img/DriveinBackground1.jpg');
     background-size: cover;
@@ -10,16 +18,94 @@ nav {
 }
 
 h1 {
-    background-color: gold;
+    color: rgb(255, 0, 200);
     align-content: center;
+    margin: 20px;
+    padding: 20px;
 }
 
 h2 {
-    color: gold;
+    color: rgb(255, 0, 200);
+    align-content: center;
+    margin: 20px;
+    padding: 20px;
+    /* text-align: center; */
+}
+
+#addMovie {
+    align-content: center;
 }
 
 h3 {
+    color: limegreen;
+    margin: 20px;
+    padding: 20px;
+}
+
+h4 {
+    color: rgb(251, 255, 0);
+    border-left: 10px;
+}
+
+h5 {
     color: white;
+    border-left: 20px;
+}
+
+h6 {
+    color: white;
+}
+
+h2.subheading {
+    border-left: 20px;
+}
+
+label {
+    margin-left: 10px;
+}
+
+.movie-label {
+    color: white;
+    font-size: 150%;
+    display: inline;
+}
+
+.time-label {
+    color: white;
+    font-size: 150%;
+    display: inline;
+}
+
+.title-header {
+    margin-left: 20px;
+}
+
+.btn {
+    margin: 30px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+form {
+    margin-left: 10px;
+}
+
+.form-control {
+    line-height: 20px;
+    color: white;
+    font-size: 150%;
+}
+
+.movieField {
+    line-height: 20px;
+    color: white;
+    font-size: 150%;
+}
+
+.name-label {
+    line-height: 20px;
+    color: white;
+    font-size: 150%;
 }
 
 div.driveinList {
@@ -60,7 +146,13 @@ div.showtime {
     color: white;
 }
 
-input.textarea {
-    height: 50px;
-    width: 300px;
+input#description {
+    height: 100px;
+    width: 400px;
+}
+
+#description {
+    line-height: 20px;
+    color: white;
+    font-size: 150%;
 }
