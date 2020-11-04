@@ -19,6 +19,10 @@
                 </a>
             </li>
 
+            <% if (driveins[i].address != null) { %>
+                <h6><%= driveins[i].address %></h6>
+            <% } %>
+
             <% if (currentUser) { %>
                 <div class="driveinButtonControlList">
                     <form action="/driveins/<%=driveins[i]._id%>/edit?_method=GET" method="POST">

@@ -1,4 +1,7 @@
 <h1><%= drivein.name %></h1>
+<% if (drivein.address != null) { %>
+  <h5 class="address"><%= drivein.address %></h5>
+<% } %>
 
 <h2>Movies</h2>
 <ul>
@@ -61,4 +64,13 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+<% } %>
+
+<% if (drivein.address != null) {%>
+<iframe
+  width="450"
+  height="250"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCLbDPkMfZuxUVZ3L3-_fxsE6t3g86CaO8&q=<%= drivein.address %>" allowfullscreen>
+</iframe>
 <% } %>

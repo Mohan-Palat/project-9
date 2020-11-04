@@ -12,6 +12,8 @@ const isAuthenticated = (req, res, next) => {
 
 router.get('/', async (req, res) => {
   console.log('Index Route');
+  console.log(req.body);
+
   let allDriveins = await Drivein.find({});
   res.render('driveins/index.ejs', { 
     driveins: allDriveins,
@@ -42,6 +44,7 @@ router.get('/:driveinId/edit', isAuthenticated, (req, res) => {
 
 
 router.get('/:id', async (req, res) => {
+  // initMap(36.17, 115.14);
   let allMovies = await Movie.find({});
   let foundDrivein = await Drivein.findById(req.params.id).populate({
     path: 'movies',
@@ -60,6 +63,7 @@ router.post('/', isAuthenticated, async (req, res) => {
   console.log(req.body);
   let drivein = new Drivein();
   drivein.name = req.body.name;
+  drivein.address = req.body.address;
 
   if (!Array.isArray(req.body.movies)) {
     let temp = req.body.movies;
@@ -98,6 +102,7 @@ router.put('/:driveinId/editName', isAuthenticated, (req, res) => {
   // find movie in db by id
   Drivein.findById(driveinId, (err, foundDrivein) => {
     foundDrivein.name = req.body.name;
+    foundDrivein.address = req.body.address;
     foundDrivein.save((err, savedDrivein) => {
       res.redirect(`/driveins/${foundDrivein.id}`);
     });

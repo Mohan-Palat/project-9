@@ -35,6 +35,7 @@ async function seed() {
   // CREATE A NEW DRIVEINS
   const moonlightDrivein = new Drivein({
     name: 'Moonlight Drive-In',
+    address: 'Las Vegas, Nevada',
     movies: [],
     showtimes: [],
   });

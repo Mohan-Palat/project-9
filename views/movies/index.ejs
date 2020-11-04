@@ -7,8 +7,10 @@
 </head>
 <body>
     <h2>Movies</h2>
-    <a id="addMovie" href="/movies/new" ><h5>Add Movie</h5></a>
-    <br>
+    <% if (currentUser) { %>
+        <a id="addMovie" href="/movies/new" ><h5>Add Movie</h5></a>
+        <br>
+    <% } %>    
     <ul>
         <% for (let i=0; i<movies.length; i++) { %>
             <li>

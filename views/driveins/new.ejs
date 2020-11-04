@@ -1,8 +1,13 @@
 <h1>Add New Drive-In</h1>
 <form action="/driveins" method="POST">
   <div class="form-group">
-    <label class="name-label" for="name"><h6>Name</h6></label>
+    <label class="name-label" for="name"><h6>Name:</h6></label>
     <input type="text" class="form-control" id="name" name="name" />
+  </div>
+
+  <div class="form-group">
+    <label class="name-label" for="address"><h6>Address:</h6></label>
+    <input type="text" class="form-control" id="address" name="address" />
   </div>
 
   <% movies.forEach((movie, index) => { %>

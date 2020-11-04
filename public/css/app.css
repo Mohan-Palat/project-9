@@ -37,7 +37,7 @@ h2 {
 }
 
 h3 {
-    color: limegreen;
+    color: greenyellow;
     margin: 20px;
     padding: 20px;
 }
@@ -54,6 +54,7 @@ h5 {
 
 h6 {
     color: white;
+    border-left: 20px;
 }
 
 h2.subheading {
@@ -108,6 +109,10 @@ form {
     font-size: 150%;
 }
 
+.address {
+    margin-left: 20px;
+}
+
 div.driveinList {
     color: white;
 }
@@ -156,3 +161,5 @@ input#description {
     color: white;
     font-size: 150%;
 }
+
+  

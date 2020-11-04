@@ -4,6 +4,10 @@ const driveinSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  address: {
+    type: String,
+    default: '',
+  },
   movies: [
     {
       type: mongoose.Schema.Types.ObjectId,

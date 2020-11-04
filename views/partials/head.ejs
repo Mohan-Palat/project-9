@@ -6,3 +6,35 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLbDPkMfZuxUVZ3L3-_fxsE6t3g86CaO8&callback=initMap&libraries=&v=weekly"
+      defer
+></script>
+<style type="text/css">
+    /* Set the size of the div element that contains the map */
+    #map {
+      height: 200px;
+      /* The height is 400 pixels */
+      width: 25%;
+      /* The width is the width of the web page */
+    }
+  </style>
+  <script>
+    // Initialize and add the map
+    function initMap() {
+      const uluru = { lat: -25.344, lng: 131.036 };
+      const lasvegas = { lat: 36.17, lng: 115.14 };
+      // const newyork = {lat: Number(latValue), lng: Number(longValue)};
+
+      // The map, centered at Uluru
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: lasvegas,
+      });
+      // The marker, positioned at Uluru
+      let marker = new google.maps.Marker({
+        position: lasvegas,
+        map: map,
+      });
+    }
+  </script>
