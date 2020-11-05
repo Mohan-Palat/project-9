@@ -97,6 +97,10 @@ form {
     font-size: 150%;
 }
 
+#descriptionbox {
+    color: black;
+}
+
 .movieField {
     line-height: 20px;
     color: white;
@@ -158,7 +162,7 @@ input#description {
 
 #description {
     line-height: 20px;
-    color: white;
+    color: black;
     font-size: 150%;
 }
 
