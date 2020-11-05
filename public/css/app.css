@@ -163,6 +163,7 @@ input#description {
 #description {
     line-height: 20px;
     color: black;
+    background-color: white;
     font-size: 150%;
 }
 
