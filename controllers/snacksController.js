@@ -10,7 +10,7 @@ const isAuthenticated = (req, res, next) => {
   }
 }
 
-//NEW MOVIE FORM
+//SNACK INDEX ROUTE
 router.get('/', async (req, res) => {
     console.log('Index Route');
     let allDriveins = await Drivein.find({});
@@ -22,16 +22,19 @@ router.get('/', async (req, res) => {
     });
 });
 
+//SNACK NEW ROUTE
 router.get('/new', isAuthenticated, (req, res) => {
   res.render('snacks/new.ejs', {
     currentUser: req.session.currentUser
   });
 });
 
+// SNACK EDIT ROUTE
 router.get('/:snackId/edit', isAuthenticated, (req, res) => {
-  // set the value of the user and tweet ids
+  // set the value of the Snack ID
   const snackId = req.params.snackId;
-  // find user in db by id
+
+  // find Snack in db by Snack ID
   Snack.findById(snackId, (err, foundSnack) => {
     res.render('snacks/edit.ejs', { 
         foundSnack,
@@ -40,6 +43,8 @@ router.get('/:snackId/edit', isAuthenticated, (req, res) => {
   });
 });
 
+// SNACK SHOW ROUTE
+// Get Show Page for Snack
 router.get('/:snackId', (req, res) => {
     Snack.findById(req.params.snackId, (error, snack) => {
         console.log(snack);
@@ -50,7 +55,7 @@ router.get('/:snackId', (req, res) => {
     });
 });
 
-// CREATE A NEW MOVIE
+// CREATE A NEW SNACK
 router.post('/', isAuthenticated, async (req, res) => {
   console.log(req.body);
     try {
@@ -61,11 +66,14 @@ router.post('/', isAuthenticated, async (req, res) => {
     }
 });
 
+// SNACK UPDATE PUT ROUTE
+// Update Snack
 router.put('/:snackId', isAuthenticated, (req, res) => {
   console.log('PUT ROUTE');
-  // set the value of the song id
+  // set the value of the Snack ID
   const snackId = req.params.snackId;
-  // find movie in db by id
+
+  // find snack by Snack ID in DB
   Snack.findById(snackId, (err, foundSnack) => {
     foundSnack.name = req.body.name;
     foundSnack.save((err, savedSnack) => {
@@ -74,51 +82,11 @@ router.put('/:snackId', isAuthenticated, (req, res) => {
   });
 });
 
-// DELETE
+// DELETE ROUTE
+// Delete Snack from DB
 router.delete('/:id', isAuthenticated, async (req, res) => {
     let deletedSnack = await Snack.findByIdAndRemove(req.params.id);
     console.log(`deletedSnack is ${deletedSnack}`);
-
-//     let allDriveins = await Drivein.find({});
-
-//     allDriveins.forEach( async (drivein, moviesIndex) => {
-//       console.log(`drivein is ${drivein}`);
-      
-//       let tempMovies = [];
-//       let tempShowtimes = [];
-//       drivein.movies.forEach((movie, index) => {
-//         console.log(`movie is ${movie}`);
-//         if (String(movie) != String(deletedMovie._id)) {
-//           tempMovies.push(movie);
-//           console.log(`movie to keep is ${movie}`);
-//           tempShowtimes.push(drivein.showtimes[index]);
-//           console.log(`showtime to keep is ${drivein.showtimes[index]}`);
-//         }
-//       });
-
-//       console.log(`tempMovies to keep is ${tempMovies}`);
-//       console.log(`tempShowtimes to keep is ${tempShowtimes}`);
-
-//       await Drivein.findByIdAndUpdate(
-//         drivein._id,
-//         {
-//           $set: {
-//             movies: tempMovies,
-//           },
-//         },
-//         { new: true, upsert: false }
-//       );
-
-//       await Drivein.findByIdAndUpdate(
-//         drivein._id,
-//         {
-//           $set: {
-//             showtimes: tempShowtimes,
-//           },
-//         },
-//         { new: true, upsert: false }
-//       );
-//   });
 
   res.redirect('/snacks');
 });

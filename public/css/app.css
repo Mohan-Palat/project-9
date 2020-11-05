@@ -223,3 +223,25 @@ h5.timeEntry {
 h6.timeEntry {
     color: black;
 }
+
+@media screen and (max-width: 600px) {
+    nav {
+        flex-direction: column;
+    }
+
+    div.driveinButtonControlList {
+        flex-direction: column;
+    }
+    
+    div.movieButtonControlList {
+        flex-direction: column;
+    }
+
+    .moviesControlPanel {
+        flex-direction: column;
+    }
+
+    .hourSegment {
+        flex-direction: column;
+    }
+}
