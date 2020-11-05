@@ -63,8 +63,8 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 app.use('/movies', require('./controllers/moviesController'));
 app.use('/driveins', require('./controllers/driveinsController'));
 app.use('/times', require('./controllers/timesController'));
-app.use('/users', require('./controllers/users_Controller'))
-app.use('/sessions', require('./controllers/sessions_Controller'))
+app.use('/users', require('./controllers/users_controller'))
+app.use('/sessions', require('./controllers/sessions_controller'))
 app.use('/snacks', require('./controllers/snacksController'))
 
 app.get('/' , (req, res) => {
