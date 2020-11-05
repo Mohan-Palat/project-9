@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const Drivein = require('./models/drivein');
 const Movie = require('./models/movie');
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/'+ 'project2-db';;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/'+ 'project2-db';;
 mongoose.connect(
-  mongoURI,
+  MONGODB_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
