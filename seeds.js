@@ -18,8 +18,8 @@ mongoose.connect(
 );
 
 async function seed() {
-  await mongoose.connection.dropCollection('movies');
-  await mongoose.connection.dropCollection('driveins');
+  // await mongoose.connection.dropCollection('movies');
+  // await mongoose.connection.dropCollection('driveins');
 
   // CREATE TWO MOVIES
   const irishman = await Movie.create({
