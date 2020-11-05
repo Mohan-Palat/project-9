@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks</title>
+</head>
+<body class="snackIndex">
+    <h2>Food Packages</h2>
+    <% if (currentUser) { %>
+        <a id="addSnack" href="/snacks/new" ><h5>Add Food Package</h5></a>
+        <br>
+    <% } %>    
+    <ul class="collection">
+        <% for (let i=0; i<snacks.length; i++) { %>
+            <li class="collection-item">
+                <a href="/snacks/<%=snacks[i]._id%>">
+                    <h5 class="timeEntry"><%= snacks[i].name %></h5>
+                </a>
+            </li>
+            <br><br>
+        <% } %>
+    </ul>
+</body>
+</html>

@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies</title>
 </head>
-<body>
-    <h2>Movies By Drive-In</h2>
+<body class="timebymovie">
+    <h2 class="moviebyhourtitle">Movies By Drive-In Name</h2>
 
+    <div class="hourSegment">
     <% for (let time=7; time<10; time++) { %>
+        <div>
         <h3><%= time %>:00 Hour</h3>
         
-        <ul>
+        <ul class="collection with-header">
         <% for (let i=0; i<driveins.length; i++) { %>
             <% let driveInFlag = false %>
 
@@ -21,9 +23,9 @@
                 <% for (let l=0; l<driveins[i].showtimes[k].movieshowtimes.length; l++) { %>   
                     <% if (driveins[i].showtimes[k].movieshowtimes[l].includes(`${time}:`)) { %>
                         <% if (!driveInFlag) { %>
-                            <li>
+                            <li class="collection-header">
                                 <a href="/driveins/<%=driveins[i]._id%>">
-                                    <h4><%= driveins[i].name %></h4>
+                                    <h4 class="movieTitle"><%= driveins[i].name %></h4>
                                 </a>
                             </li>
 
@@ -67,7 +69,9 @@
 
         <% } %>
         </ul>
-
+        </div>
     <% } %>
+    </div>
+
 </body>
 </html>

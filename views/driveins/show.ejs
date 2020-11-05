@@ -1,19 +1,32 @@
-<h1><%= drivein.name %></h1>
+<body class="showDrivein">
+<h1 id="driveinName"><%= drivein.name %></h1>
 <% if (drivein.address != null) { %>
   <h5 class="address"><%= drivein.address %></h5>
 <% } %>
 
+<% if (drivein.address != null) {%>
+  <iframe
+    width="450"
+    height="250"
+    frameborder="0" style="border:0"
+    src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCLbDPkMfZuxUVZ3L3-_fxsE6t3g86CaO8&q=<%= drivein.address %>" allowfullscreen>
+  </iframe>
+<% } %>
+
+<div class="moviesControlPanel">
+<div class="moviesBoard">
 <h2>Movies</h2>
+
 <ul>
     <% for (let i=0; i<drivein.movies.length; i++) { %>
   <li>
     <a href="/movies/<%= drivein.movies[i].id %>"><h4><%= drivein.movies[i].title %></h4></a>
 
     <h5 class="showtimes">Showtimes:</h5>
-    <ul>
+    <ul class="collection">
     <% if (drivein.showtimes[i] != null) {%>
       <% for (let j=0; j<drivein.showtimes[i].movieshowtimes.length; j++) { %>
-        <li><div class="showtime"><h6><%= drivein.showtimes[i].movieshowtimes[j] %></h6></div></li>
+        <li class="collection-item"><div class="showtime"><h6 class="timeEntry"><%= drivein.showtimes[i].movieshowtimes[j] %></h6></div></li>
       <% } %>
     <% } %>
     </ul>
@@ -27,13 +40,12 @@
   </li>
   <% } %>
 </ul>
+</div>
 <br>
-<!-- <form action="/driveins/<%=drivein.id%>/edit?_method=GET" method="POST">
-  <button>EDIT DRIVEIN</button>
-</form> -->
 
+<div class="addOrUpdateBoard">
 <% if (currentUser) { %>
-  <h4 class="title-header">Add or Update Movies</h4>
+  <h2 class="title-header">Add or Update Movies</h2>
   <form action="/driveins/<%= drivein.id %>/edit?_method=PUT" method="POST">
   
     <% movies.forEach((movie, index) => { %>     
@@ -66,11 +78,7 @@
   </form>
 <% } %>
 
-<% if (drivein.address != null) {%>
-<iframe
-  width="450"
-  height="250"
-  frameborder="0" style="border:0"
-  src="https://www.google.com/maps/embed/v1/search?key=AIzaSyCLbDPkMfZuxUVZ3L3-_fxsE6t3g86CaO8&q=<%= drivein.address %>" allowfullscreen>
-</iframe>
-<% } %>
+</div>
+</div>
+<br>
+</body>

@@ -162,4 +162,64 @@ input#description {
     font-size: 150%;
 }
 
-  
+.driveinIndex {
+    background-image: url('../img/DriveinBackground4.jpg');
+    background-size: cover;
+}
+
+.movieIndex {
+    background-image: url('../img/DriveinBackground1.jpg');
+    background-size: cover;
+}
+
+.movieNew {
+    background-image: url('../img/DriveinBackground4.jpg');
+    background-size: cover;
+}
+
+.showDrivein {
+    background-image: url('../img/DriveinBackground3.jpg');
+    background-size: cover;
+}
+
+.snackIndex {
+    background-image: url('../img/DriveinBackground5.jpeg');
+    background-size: cover;
+}
+
+.timebymovie {
+    background-image: url('../img/DriveinBackground3.jpg');
+    background-size: cover;
+}
+
+.moviesControlPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.hourSegment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+h1#driveinName {
+    color: white;
+}
+
+h4.movieTitle {
+    color: black;
+}
+
+h2.moviebyhourtitle {
+    color: white;
+}
+
+h5.timeEntry {
+    color: black;
+}
+
+h6.timeEntry {
+    color: black;
+}

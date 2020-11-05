@@ -8,13 +8,13 @@
 <body class="driveinIndex">
     <h2>Drive-Ins</h2>
     <% if (currentUser) { %>
-        <h5><a href="/driveins/new" >Create New Drive-In</a></h5>
+        <a href="/driveins/new"><h5>Create New Drive-In</h5></a>
         <br>
     <% } %>
     <ul>
         <% for (let i=0; i<driveins.length; i++) { %>
             <li>
-                <a href="/driveins/<%=driveins[i]._id%>">
+                <a href="/driveins/<%=driveins[i]._id%>" class="breadcrumb">
                     <h5><%= driveins[i].name %></h5>
                 </a>
             </li>

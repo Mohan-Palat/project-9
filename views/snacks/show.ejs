@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snack</title>
+</head>
+<body class="showMovie">
+    <h1>Food Packages</h1>
+    <% if (currentUser) { %>
+        <a href="/snacks/new"><h5>Add New Food Package</h5></a>
+        <br>
+    <% } %>
+
+    <h2><%= snack.name %></h2>
+
+    <% if (currentUser) { %>
+        <div class="movieButtonControlList">
+            <form action="/snacks/<%=snack._id%>/edit?_method=GET" method="POST">
+                <button>EDIT FOOD PACKAGE</button>
+            </form>
+            <br>
+            <form action="/snacks/<%=snack._id%>?_method=DELETE" method="POST">
+                <button>DELETE FOOD PACKAGE</button>
+            </form>
+        </div>
+    <% } %>
+
+</body>
+</html>

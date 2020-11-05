@@ -1,11 +1,12 @@
 <nav class="black">
   <ul>
-  <li><a href="/movies">Show Movies</a></li>
-  <li><a href="/driveins">Show Drive-In Theaters</a></li>
-  <li><a href="/times/movie">Show By Movie Each Hour</a></li>
-  <li><a href="/times/drivein">Show By Drive-In Theater Each Hour</a></li>
-  <li><a href="/movies/new">Add a New Movie</a></li>
-  <li><a href="/driveins/new">Add a New Drive-In Theater</a></li>
+  <li class="showmovieslink"><a href="/movies">Show Movies</a></li>
+  <li><a href="/driveins" class="breadcrumb">Show Drive-In Theaters</a></li>
+  <li><a href="/times/movie" class="breadcrumb">Show By Movie Each Hour</a></li>
+  <li><a href="/times/drivein" class="breadcrumb">Show By Drive-In Theater Each Hour</a></li>
+  <li><a href="/snacks" class="breadcrumb">Food</a></li>
+  <li><a href="/movies/new" class="breadcrumb">Add a New Movie</a></li>
+  <li><a href="/driveins/new" class="breadcrumb">Add a New Drive-In Theater</a></li>
 
   <% if (currentUser) { %>
     <form action="/sessions?_method=DELETE" method="POST">

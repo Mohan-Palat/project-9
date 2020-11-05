@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies</title>
 </head>
-<body>
+<body class="movieIndex">
     <h2>Movies</h2>
     <% if (currentUser) { %>
         <a id="addMovie" href="/movies/new" ><h5>Add Movie</h5></a>
@@ -19,13 +19,13 @@
                 </a>
 
                 <h5 class="driveinList">Drive-Ins:</h5>
-                <ul>
+                <ul class="collection with-header">
                 <% for (let j=0; j<driveins.length; j++) { %>
                     <% for (let k=0; k<driveins[j].movies.length; k++) { %>
                         <% if (String(movies[i]._id) == String(driveins[j].movies[k]._id)) { %>
-                            <li>
+                            <li class="collection-header">
                                 <a href="/driveins/<%=driveins[j]._id%>">
-                                    <h6><%= driveins[j].name %></h6>
+                                    <h6 class="timeEntry"><%= driveins[j].name %></h6>
                                 </a>
                             </li>
                         <% } %>
